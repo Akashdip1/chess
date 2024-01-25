@@ -5,7 +5,7 @@ pygame.init()
 
 WIDTH, HEIGHT = 1600, 1600
 
-DARK, WHITE = (128,128,128), (255,255,255)
+DARK, LIGHT=  (110, 61, 42), (252, 202, 182) 
 
 ROWS, COLS = 8, 8
 
@@ -51,8 +51,24 @@ BLACK_KNIGHT= pygame.transform.scale(BLACK_KNIGHT_IMAGE, (PIECE_WIDTH, PIECE_HEI
 BLACK_BISHOP_IMAGE = pygame.image.load("Assets/bB.svg")
 BLACK_BISHOP = pygame.transform.scale(BLACK_BISHOP_IMAGE, (PIECE_WIDTH, PIECE_HEIGHT))
 
-BLACK_PAWN_IMAGE = pygame.image.load("Assets/bK.svg") 
+BLACK_PAWN_IMAGE = pygame.image.load("Assets/bP.svg") 
 BLACK_PAWN= pygame.transform.scale(BLACK_PAWN_IMAGE, (PIECE_WIDTH, PIECE_HEIGHT))
+
+
+DICT = {
+    "p" : BLACK_PAWN,
+    "k" : BLACK_KING,
+    "q" : BLACK_QUEEN,
+    "r" : BLACK_ROOK,
+    "b" : BLACK_BISHOP,
+    "n" : BLACK_KNIGHT,
+    "P" : WHITE_PAWN,
+    "K" : WHITE_KING,
+    "Q" : WHITE_QUEEN,
+    "R" : WHITE_ROOK,
+    "B" : WHITE_BISHOP,
+    "N" : WHITE_KNIGHT
+}
 
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -66,10 +82,29 @@ def drawBoard():
             else:
                 continue
 
-
-
-def drawPieces():
-    WIN.blit(WHITE_KING, (0, 0))
+#Test - Fen to pieces on the board
+fen = chess.STARTING_FEN 
+def fen_to_board(fen):
+    board = []
+    for row in fen.split("/"):
+        board_row = []
+        for c in row:
+            if c == " ":
+                break
+            elif c in "12345678":
+                board_row.extend(["-"] * int(c))
+            elif c.isalpha():
+                board_row.append(c)
+        board.append(board_row)
+    return board
+def drawPieces(board = fen_to_board(fen)):
+    for i in range(8):
+        for j in range(8):
+            if board[i][j] == "-":
+                continue
+            else:
+                WIN.blit(DICT[board[i][j]],(PIECE_WIDTH*j, PIECE_HEIGHT*i))
+# End Test
 
 def main():
     run = True
@@ -79,7 +114,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-        WIN.fill(WHITE)
+        WIN.fill(LIGHT)
 
         drawBoard()
         drawPieces()
