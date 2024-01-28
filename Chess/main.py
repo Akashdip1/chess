@@ -5,7 +5,6 @@ object
 
 import pygame as p
 import engine
-import pprint
 
 p.init()
 WIDTH = HEIGHT = 800
