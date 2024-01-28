@@ -29,11 +29,11 @@ def loadImages():
 
 # drawBoard() will draw the squares on the board
 def drawBoard(screen):
-    colors = [LIGHT, DARK]
+    screen.fill(LIGHT)
     for r in range(DIMENSION):
         for c in range(DIMENSION):
-            color = colors[(r+c) % 2]
-            p.draw.rect(screen, color, p.Rect(c*SQUARE_SIZE, r*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
+            if (r+c) % 2 == 0:
+               p.draw.rect(screen, DARK, p.Rect(c*SQUARE_SIZE, r*SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
 # drawPieces() will draw the pieces on the board using the current GameState.board
 def drawPieces(screen, board):
@@ -57,7 +57,6 @@ This will be our main driver which will be responsible for user input and updati
 def main():
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
-    screen.fill(LIGHT)
 
     gs = engine.GameState()
     loadImages()
