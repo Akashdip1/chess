@@ -21,13 +21,20 @@ class GameState():
         
         self.whiteToMove = True
         self.moveLog = []
-       
+        
     def makeMove(self, move): # move = instance of a Move class
         self.board[move.startRow][move.startCol] = "--"
         self.board[move.endRow][move.endCol] = move.pieceMoved
         self.moveLog.append(move) #log of the moves
         self.whiteToMove = not self.whiteToMove # Switch turns of players
- 
+    
+    def undoMove(self):
+        if len(self.moveLog) != 0:
+            move = self.moveLog.pop()
+            self.board[move.startRow][move.startCol] = move.pieceMoved
+            self.board[move.endRow][move.endCol] = move.pieceCaptured
+            self.whiteToMove = not self.whiteToMove
+            
 class Move():
     ranksToRows = {"1" : 7, "2" : 6, "3" : 5,"4" : 4, "5" : 3, "6" : 2, "7" : 1, "8" : 0}
     rowsToRanks = {v : k for k, v in ranksToRows.items()} 

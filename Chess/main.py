@@ -5,6 +5,9 @@ object
 
 import pygame as p
 import engine
+from pprint import pprint
+
+
 
 p.init()
 WIDTH = HEIGHT = 800
@@ -85,8 +88,15 @@ def main():
                 if len(playerClicks) == 2:  # move the chess piece after 2 clicks
                     move = engine.Move(playerClicks[0], playerClicks[1], gs.board)
                     gs.makeMove(move)
+                    print(move.getChessNotation())
                     sqSelected = ()
                     playerClicks = [] # reset
+                    
+            if event.type == p.KEYDOWN:
+                key = event.key
+                if key == p.K_u:
+                    gs.undoMove()
+                 
 
         drawGameState(screen, gs)
         clock.tick(FPS)
